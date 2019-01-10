@@ -1,54 +1,64 @@
-FROM ubuntu:xenial
+# FROM alpine:latest
+FROM ubuntu:latest
 
-LABEL maintainer="jr.rombaldo"
+LABEL maintainer="Carlos Rombaldo <jr.rombaldo@gmail.com>"
 
-# package versions
-ARG OPENVPN_VER="2.5.2"
+# inspired at: https://github.com/kylemanna/docker-openvpn/
+# following https://help.ubuntu.com/lts/serverguide/openvpn.html.en
+# https://wiki.debian.org/OpenVPN
 
-# environment settings
-ARG DEBIAN_FRONTEND="noninteractive"
+RUN apt clean && \
+    apt update && \
+    apt install openvpn easy-rsa iptables -y
 
-RUN \
- echo "**** install packages ****" && \
- apt-get update && \
- apt-get install -y \
-	iptables \
-	net-tools \
-	rsync && \
- echo "**** install openvpn-as ****" && \
- curl -o \
- /tmp/openvpn.deb -L \
-	"http://swupdate.openvpn.org/as/openvpn-as-${OPENVPN_VER}-Ubuntu16.amd_64.deb" && \
- dpkg -i /tmp/openvpn.deb && \
- echo "**** ensure home folder for abc user set to /config ****" && \
- usermod -d /config abc && \
- echo "**** create admin user and set default password for it ****" && \
- useradd -s /sbin/nologin admin && \
- echo "admin:password" | chpasswd && \
- echo "**** configure openvpn-as ****" && \
- find /usr/local/openvpn_as/scripts -type f -print0 | \
-	xargs -0 sed -i 's#/usr/local/openvpn_as#/config#g' && \
- find /usr/local/openvpn_as/bin -type f -print0 | \
-	xargs -0 sed -i 's#/usr/local/openvpn_as#/config#g' && \
- sed -i \
-		-e 's#=openvpn_as#=abc#g' \
-		-e 's#~/tmp#/openvpn/tmp#g' \
-		-e 's#~/sock#/openvpn/sock#g' \
-	/usr/local/openvpn_as/etc/as_templ.conf && \
- echo "**** cleanup ****" && \
- apt-get clean && \
- rm -rf \
-	/tmp/* \
-	/usr/local/openvpn_as/etc/db/* \
-	/usr/local/openvpn_as/etc/sock \
-	/usr/local/openvpn_as/etc/tmp \
-	/usr/local/openvpn_as/tmp \
-	/var/lib/apt/lists/* \
-	/var/tmp/*
+RUN mkdir /etc/openvpn/easy-rsa/ && \
+    cp -r /usr/share/easy-rsa/* /etc/openvpn/easy-rsa/
 
-# add local files
-COPY /root /
 
-# ports and volumes
-EXPOSE 943/tcp 1194/udp 9443/tcp
-VOLUME /config
+VOLUME ["/openvpn"]
+
+# EASY RSA VARS
+ENV EASY_RSA="/etc/openvpn/easy-rsa"
+ENV OPENSSL="openssl"
+ENV PKCS11TOOL="pkcs11-tool"
+ENV GREP="grep"
+# ENV KEY_CONFIG="$EASY_RSA/whichopensslcnf $EASY_RSA"
+ENV KEY_CONFIG="/openvpn/openssl.cnf"
+ENV KEY_DIR="/openvpn/keys"
+
+# PKCS11 fixes
+ENV PKCS11_MODULE_PATH="dummy"
+ENV PKCS11_PIN="dummy"
+
+ENV KEY_SIZE=2048
+ENV CA_EXPIRE=3650
+ENV KEY_EXPIRE=3650
+
+ENV KEY_COUNTRY="UK"
+ENV KEY_PROVINCE="LDN"
+ENV KEY_CITY="LONDON"
+ENV KEY_ORG="MyOrg"
+ENV KEY_ALTNAMES="something"
+ENV KEY_EMAIL="my-vpn@myorg.net"
+ENV KEY_OU="MyOrganizationalUnit"
+
+# X509 Subject Field
+ENV KEY_NAME="EasyRSA_CA"
+
+
+ENV SERVER_NAME="MyVPN"
+ENV SERVER_REMOTE_ADDR="v.rombaldo.com"
+
+
+ADD ./bin/* /usr/local/bin/
+RUN chmod a+x /usr/local/bin/*
+
+
+
+
+ADD openvpn_entry.sh ./
+RUN chmod +x openvpn_entry.sh
+ENTRYPOINT [ "./openvpn_entry.sh" ]
+
+
+CMD /bin/bash
