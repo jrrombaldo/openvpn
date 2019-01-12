@@ -9,7 +9,7 @@ LABEL maintainer="Carlos Rombaldo <jr.rombaldo@gmail.com>"
 
 RUN apt clean && \
     apt update && \
-    apt install openvpn easy-rsa iptables -y
+    apt install openvpn easy-rsa iptables net-tools --no-install-recommends -y
 
 RUN mkdir /etc/openvpn/easy-rsa/ && \
     cp -r /usr/share/easy-rsa/* /etc/openvpn/easy-rsa/
@@ -54,8 +54,10 @@ ADD ./bin/* /usr/local/bin/
 RUN chmod a+x /usr/local/bin/*
 
 
+# enabling IP forward
+# RUN /sbin/sysctl -w net.ipv4.conf.all.forwarding=1
 
-
+ADD udp_srv.conf /etc/openvpn
 ADD openvpn_entry.sh ./
 RUN chmod +x openvpn_entry.sh
 ENTRYPOINT [ "./openvpn_entry.sh" ]

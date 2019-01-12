@@ -10,19 +10,35 @@ set -e
 
 
 
-cd $EASY_RSA
+prepare_vpn() {
+  cd $EASY_RSA
 
-# script whichopensslcnf is not working, fixing manually
-cp $EASY_RSA/openssl-1.0.0.cnf /openvpn/openssl.cnf
+  # script whichopensslcnf is not working, fixing manually
+  cp $EASY_RSA/openssl-1.0.0.cnf /openvpn/openssl.cnf
 
-./clean-all
+  ./clean-all
 
-# ./build-ca 
-./pkitool --initca
+  # ./build-ca 
+  ./pkitool --initca
 
-# ./build-key-server myservername
-./pkitool --server $SERVER_NAME
+  # ./build-key-server myservername
+  ./pkitool --server $SERVER_NAME
 
-./build-dh
+  ./build-dh
+  
+  ln -s $KEY_DIR/ca.crt /etc/openvpn/
+  ln -s $KEY_DIR/dh2048.pem /etc/openvpn/
+  ln -s $KEY_DIR/$SERVER_NAME.crt /etc/openvpn/
+  ln -s $KEY_DIR/$SERVER_NAME.key /etc/openvpn/
+}
+
+start(){
+  systemctl start openvpn@udp_server
+
+  systemctl status openvpn@server
+
+  # search for "Initialization Sequence Completed"
+}
+
 
 
