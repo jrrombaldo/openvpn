@@ -17,13 +17,16 @@ RUN mkdir /etc/openvpn/easy-rsa/ && \
 
 VOLUME ["/openvpn"]
 
+ENV CONF_DIR="/openvpn/conf"
+ENV LOGS_DIR="/openvpn/logs"
+
 # EASY RSA VARS
 ENV EASY_RSA="/etc/openvpn/easy-rsa"
 ENV OPENSSL="openssl"
 ENV PKCS11TOOL="pkcs11-tool"
 ENV GREP="grep"
 # ENV KEY_CONFIG="$EASY_RSA/whichopensslcnf $EASY_RSA"
-ENV KEY_CONFIG="/openvpn/openssl.cnf"
+ENV KEY_CONFIG="$CONF_DIR/openssl.cnf"
 ENV KEY_DIR="/openvpn/keys"
 
 # PKCS11 fixes
@@ -50,17 +53,24 @@ ENV SERVER_NAME="MyVPN"
 ENV SERVER_REMOTE_ADDR="v.rombaldo.com"
 
 
+
+
+ENV CA_CRT=ca.crt
+ENV CA_KEY=ca.key
+ENV DH=dh2048.pem
+ENV OVPN_DIR=/etc/openvpn
+ENV OPVN_CNF=udp_srv.conf
+
+
+RUN mkdir /etc/openvpn/templates
+ADD ./templates/* /etc/openvpn/templates/
+
 ADD ./bin/* /usr/local/bin/
 RUN chmod a+x /usr/local/bin/*
 
 
-# enabling IP forward
-# RUN /sbin/sysctl -w net.ipv4.conf.all.forwarding=1
-
-ADD udp_srv.conf /etc/openvpn
-ADD openvpn_entry.sh ./
-RUN chmod +x openvpn_entry.sh
-ENTRYPOINT [ "./openvpn_entry.sh" ]
 
 
-CMD /bin/bash
+
+CMD [ "openvpn_run.sh" ]
+

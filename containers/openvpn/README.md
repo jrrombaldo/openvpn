@@ -14,3 +14,6 @@ references:
 * https://www.apt-browse.org/browse/ubuntu/trusty/main/i386/openvpn/2.3.2-7ubuntu3/file/usr/share/doc/openvpn/examples/sample-config-files
 * https://help.ubuntu.com/lts/serverguide/openvpn.html.en
 * https://github.com/kylemanna/docker-openvpn/
+
+
+docker build -t test . && docker rm -f test && docker run -ti --name test --env DEBUG=1 -v /tmp/vpn:/openvpn --privileged test
