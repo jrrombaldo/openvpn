@@ -1,5 +1,5 @@
-FROM alpine:latest
-# FROM ubuntu:latest
+# FROM alpine:latest
+FROM ubuntu:latest
 
 LABEL maintainer="Carlos Rombaldo <jr.rombaldo@gmail.com>"
 
@@ -7,8 +7,9 @@ LABEL maintainer="Carlos Rombaldo <jr.rombaldo@gmail.com>"
 # following https://help.ubuntu.com/lts/serverguide/openvpn.html.en
 # https://wiki.debian.org/OpenVPN
 
-RUN apk update && \
-    apk add openvpn easy-rsa iptables net-tools --no-cache \
+RUN apt clean && \
+    apt update && \
+    apt install openvpn easy-rsa iptables net-tools --no-install-recommends -y \
     && rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /etc/openvpn/easy-rsa/ && \
@@ -54,6 +55,7 @@ ENV SERVER_REMOTE_ADDR="v.rombaldo.com"
 
 
 
+
 ENV CA_CRT=ca.crt
 ENV CA_KEY=ca.key
 ENV DH=dh2048.pem
@@ -66,6 +68,9 @@ ADD ./templates/* /etc/openvpn/templates/
 
 ADD ./bin/* /usr/local/bin/
 RUN chmod a+x /usr/local/bin/*
+
+
+
 
 
 CMD [ "openvpn_run.sh" ]

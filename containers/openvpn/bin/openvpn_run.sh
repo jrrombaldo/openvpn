@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 # checking is the key directory exists, assuming the server is already configured, 
 # if does not exists, calling the preparation
