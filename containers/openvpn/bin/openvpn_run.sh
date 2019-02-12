@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # checking is the key directory exists, assuming the server is already configured, 
 # if does not exists, calling the preparation
@@ -117,18 +117,7 @@ start_vpn
 # /bin/bash
 
  
-# checking if the keys are there already or not. 
-# Currently just checking if directory exists, improve to check requirements/files individually.
-# if [ "$(ls -A $KEY_DIR)" ];
-# then 
-#     echo "VPN already configured, only starting ..."
-#     start_vpn
-# else
-#     find $KEY_DIR -type f -exec echo Found file {} \; 
-#     echo "VPN not configured, running setup ..."
-#     prepare_pki
-#     echo "VPN just configured, starting ... "
-# fi
+
 
 
 
