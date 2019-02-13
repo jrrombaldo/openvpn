@@ -24,9 +24,10 @@ fi
 $EASY_RSA/pkitool $key_name
 
 
-export ca_cert=$(cat /openvpn/keys/ca.crt)
-export client_cert=$(cat /openvpn/keys/$key_name.crt)
-export client_key=$(cat /openvpn/keys/$key_name.key)
+export ca_cert=$(cat $KEY_DIR/ca.crt)
+export client_cert=$(cat $KEY_DIR/$key_name.crt)
+export client_key=$(cat $KEY_DIR/$key_name.key)
+export ta_key=$(cat $KEY_DIR/ta.key)
 
 envsubst < $OVPN_DIR/templates/client_template.ovpn > /openvpn/$key_name.ovpn
 
@@ -34,3 +35,4 @@ unset key_name
 unset ca_cert
 unset client_cert
 unset client_key
+unset ta_key
