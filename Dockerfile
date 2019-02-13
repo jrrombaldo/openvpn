@@ -1,5 +1,5 @@
 FROM ubuntu:latest
-RUN apt clean && apt update && apt upgrade -y && apt install openvpn easy-rsa iptables net-tools gettext-base --no-install-recommends -y 
+RUN apt clean && apt update && apt upgrade -y && apt install openvpn easy-rsa iptables net-tools gettext-base tcpdump --no-install-recommends -y 
 
 # FROM alpine:latest
 # RUN apk update && apk add openvpn easy-rsa iptables net-tools tcpdump gettext-base --no-cache
