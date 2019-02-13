@@ -10,3 +10,4 @@ script:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
   - docker push jrromb/openvpn:latest
   - docker logout
+  - curl -d "" https://hooks.microbadger.com/images/jrromb/rasp-plex/$MICROBADGER  
