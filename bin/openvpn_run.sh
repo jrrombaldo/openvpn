@@ -1,14 +1,8 @@
 #!/bin/bash
 
-# checking is the key directory exists, assuming the server is already configured, 
-# if does not exists, calling the preparation
-
-
-if [ "$DEBUG" == "1" ]; then
-  set -x
-fi
-
-set -e
+# if debug enabled, print all executed commands
+if [ "$DEBUG" == "1" ]; then set -x; fi
+set -e # Exit immediately if a command exits with a non-zero status.
 
 
 
@@ -112,15 +106,24 @@ prepare_vpn(){
 start_vpn(){
 
     prepare_vpn
-
     echo "-> starting vpn"
     openvpn --cd /etc/openvpn --config $CONF_DIR/$OPVN_CNF \
         --daemon openvpn_udp \
         --log-append $LOGS_DIR/openvpn.log \
+        --verb 3 \
         --status $LOGS_DIR/openvpn-status.log 1 
 
-    # tail -f $LOGS_DIR/*.log
-    tail -f $LOGS_DIR/openvpn.log
+    RESULT=$?
+    if [ $RESULT -eq 0 ]; then
+        echo "-> openvpn started!"
+        # tail -f $LOGS_DIR/*.log
+        tail -f $LOGS_DIR/openvpn.log
+    else
+        echo "-> openvpn failed to start, try look at /var/log/openvpn.log or at 'journalctl -xe'"
+    fi
+
+
+    
 
     
 
