@@ -1,0 +1,13 @@
+sudo: required
+
+services:
+  - docker
+
+language: bash
+
+script:
+  - cd openvpn
+  - docker build -t jrromb/openvpn .
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+  - docker push jrromb/openvpn:latest
+  - docker logout
