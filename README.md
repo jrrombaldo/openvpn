@@ -1,5 +1,6 @@
 # safe-net
 [![Build Status](https://travis-ci.org/jrrombaldo/openvpn.svg?branch=master)](https://travis-ci.org/jrrombaldo/openvpn)
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjrrombaldo%2Fopenvpn.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjrrombaldo%2Fopenvpn?ref=badge_shield)
 [![](https://images.microbadger.com/badges/image/jrromb/openvpn.svg)](https://microbadger.com/images/jrromb/openvpn)
 
 This container needs to run with the `--priviledge` parameters, otherwise the IPtables will not work and produce the following errors:
@@ -49,3 +50,7 @@ currently the project is on MVP (minimal viable product), which intends to prove
 # the same virtual IP address from the pool that was
 # previously assigned.
 ifconfig-pool-persist ipp.txt
+
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjrrombaldo%2Fopenvpn.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjrrombaldo%2Fopenvpn?ref=badge_large)
