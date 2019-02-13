@@ -5,9 +5,15 @@ services:
 
 language: bash
 
+before_script:
+  - git clone https://github.com/lukebond/microscanner-wrapper.git
+
 script:
   - docker build -t jrromb/openvpn .
+  - microscanner-wrapper/scan.sh jrromb/openvpn:latest
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
   - docker push jrromb/openvpn:latest
   - docker logout
-  - curl -d "" https://hooks.microbadger.com/images/jrromb/rasp-plex/$MICROBADGER  
+
+after_success:
+  - curl -d "" https://hooks.microbadger.com/images/jrromb/rasp-plex/$MICROBADGER
