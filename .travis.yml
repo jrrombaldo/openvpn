@@ -9,6 +9,7 @@ before_script:
   - git clone https://github.com/lukebond/microscanner-wrapper.git
 
 script:
+  - cd openvpn-as
   - docker build -t jrromb/openvpn .
   - microscanner-wrapper/scan.sh jrromb/openvpn:latest
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
@@ -16,4 +17,4 @@ script:
   - docker logout
 
 after_success:
-  - curl -d "" https://hooks.microbadger.com/images/jrromb/rasp-plex/$MICROBADGER
+  - curl -d "" https://hooks.microbadger.com/images/jrromb/openvpn/$MICROBADGER
