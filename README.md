@@ -1,6 +1,10 @@
 # safe-net
+<!-- [![Build Status](https://travis-ci.org/jrrombaldo/openvpn.svg?branch=master)](https://travis-ci.org/jrrombaldo/openvpn)
+[![](https://images.microbadger.com/badges/image/jrromb/openvpn.svg)](https://microbadger.com/images/jrromb/openvpn) -->
+
 [![Build Status](https://travis-ci.org/jrrombaldo/openvpn.svg?branch=master)](https://travis-ci.org/jrrombaldo/openvpn)
-[![](https://images.microbadger.com/badges/image/jrromb/openvpn.svg)](https://microbadger.com/images/jrromb/openvpn)
+[![](https://images.microbadger.com/badges/image/jrromb/openvpn.svg)](https://microbadger.com/images/jrromb/openvpn "Get your own image badge on microbadger.com")
+[![](https://images.microbadger.com/badges/version/jrromb/openvpn.svg)](https://microbadger.com/images/jrromb/openvpn "Get your own version badge on microbadger.com")
 
 This container needs to run with the `--priviledge` parameters, otherwise the IPtables will not work and produce the following errors:
 ```

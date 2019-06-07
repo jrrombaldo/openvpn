@@ -17,7 +17,7 @@ before_script:
 script:
   - cd openvpn-as
   - docker build -t jrromb/openvpn .
-  - microscanner-wrapper/scan.sh jrromb/openvpn:latest
+  # - microscanner-wrapper/scan.sh jrromb/openvpn:latest
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
   - docker push jrromb/openvpn:latest
   - docker logout
