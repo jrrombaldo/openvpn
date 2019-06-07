@@ -51,7 +51,7 @@ if [ ! -f "$config_flag" ]; then
     $ovpn_vol/scripts/sacli --key "admin_ui.https.port" --value "9999" ConfigPut
 
     $ovpn_vol/scripts/sacli --key "cs.https.ip_address" --value "all" ConfigPut
-    $ovpn_vol/scripts/sacli --key "cs.https.port" --value "8443" ConfigPut
+    $ovpn_vol/scripts/sacli --key "cs.https.port" --value "9999" ConfigPut
     # $ovpn_vol/scripts/sacli --key "vpn.server.port_share.enable" --value "true" ConfigPut
     # $ovpn_vol/scripts/sacli --key "vpn.server.port_share.service" --value "admin+client" ConfigPut
     $ovpn_vol/scripts/sacli --key "vpn.daemon.0.server.ip_address" --value "all" ConfigPut
