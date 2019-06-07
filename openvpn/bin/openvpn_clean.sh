@@ -1,4 +1,5 @@
 #!/bin/bash
+source environment.sh
 
 # if debug enabled, print all executed commands
 if [ "$DEBUG" == "1" ]; then set -x; fi

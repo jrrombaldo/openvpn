@@ -5,11 +5,12 @@ LABEL maintainer="Carlos Rombaldo <jr.rombaldo@gmail.com>"
 ARG PKG="https://openvpn.net/downloads/openvpn-as-latest-ubuntu18.amd_64.deb"
 ARG openvpn_pwd="changeme"
 
+ENV EXTERNAL_HOST ""
 
 RUN apt-get update && \
  	apt-get install -y iptables net-tools curl rsync
 
-RUN curl -o /tmp/openvpn.deb -L $PKG && \
+RUN curl -o /tmp/openvpn.deb -s -L $PKG && \
 	 dpkg -i /tmp/openvpn.deb && \
 	 echo "openvpn:$openvpn_pwd" | chpasswd 
 

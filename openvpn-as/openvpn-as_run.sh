@@ -4,6 +4,12 @@ export ovpn_vol='/openvpnas_config'
 export config_flag="$ovpn_vol/initialized"
 
 
+# if no external host is defined, use the internet facing IP
+if ["" == $EXTERNAL_HOST]; then export EXTERNAL_HOST=$(curl -s 'https://api.ipify.org?format=text'); fi
+
+# to see all queries
+$ovpn_vol/scripts/sacli ConfigQuery
+
 if [ ! -f "$config_flag" ]; then
 
     # ensuring directories exists
@@ -33,7 +39,7 @@ if [ ! -f "$config_flag" ]; then
     --no_start \
     --no_private \
     --local_auth 
-    --host "localhost" 
+    # --host "localhost" 
 
 
     # https://openvpn.net/vpn-server-resources/advanced-option-settings-on-the-command-line/
@@ -58,6 +64,9 @@ if [ ! -f "$config_flag" ]; then
 
 
     $ovpn_vol/scripts/sacli --key "vpn.server.max_clients" --value 20 ConfigPut
+
+
+    $ovpn_vol/scripts/sacli --key "cs.web_server_name" --value "$EXTERNAL_HOST" ConfigPut
     # $ovpn_vol/scripts/sacli start
 
     # stopping the server
@@ -69,7 +78,12 @@ if [ ! -f "$config_flag" ]; then
 fi
 
 
+# always update the hostname
+$ovpn_vol/scripts/sacli --key "cs.web_server_name" --value "$EXTERNAL_HOST" ConfigPut
+$ovpn_vol/scripts/sacli --key "host.name" --value "$EXTERNAL_HOST" ConfigPut
 
+# print asll values before start
+$ovpn_vol/scripts/sacli ConfigQuery
 
 # starting
  $ovpn_vol/scripts/openvpnas \

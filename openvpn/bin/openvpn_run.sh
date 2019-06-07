@@ -1,27 +1,17 @@
 #!/bin/bash
 
+source environment.sh
+
 # if debug enabled, print all executed commands
 if [ "$DEBUG" == "1" ]; then set -x; fi
 set -e # Exit immediately if a command exits with a non-zero status.
 
 
 
-#  in case the $KEY_DIR does not exists, create it
-if [ ! -d "$KEY_DIR" ]; then
-    echo "-> creating $KEY_DIR"
-    mkdir -p $KEY_DIR
-    chmod go-rwx "$KEY_DIR" # will fail if tempered
-fi
-
-if [ ! -d "$CONF_DIR" ]; then
-    echo "-> creating $CONF_DIR"
-    mkdir -p $CONF_DIR
-fi
-
-if [ ! -d "$LOGS_DIR" ]; then
-    echo "-> creating $LOGS_DIR"
-    mkdir -p $LOGS_DIR
-fi
+# ensuring the directories exists
+mkdir -p $KEY_DIR && chmod go-rwx "$KEY_DIR"  # will fail if tempered
+mkdir -p $CONF_DIR
+mkdir -p $LOGS_DIR
 
 
 
@@ -64,7 +54,6 @@ prepare_pki() {
 
     if [ ! -f $KEY_DIR/$SERVER_NAME.crt ] || [ ! -f $KEY_DIR/$SERVER_NAME.key ]; then
         echo "-> Server certificate [$KEY_DIR/$SERVER_NAME.crt or $KEY_DIR/$SERVER_NAME.key] not found, creating server certificate"
-        # ./build-key-server myservername
         ./pkitool --server $SERVER_NAME
     fi
 
@@ -96,10 +85,6 @@ prepare_vpn(){
     echo "-> enabling IP forwading"
     /sbin/sysctl -w net.ipv4.conf.all.forwarding=1
     /sbin/sysctl -p /etc/sysctl.conf
-
-
-
-
 }
 
 

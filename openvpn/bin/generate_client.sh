@@ -1,4 +1,5 @@
 #!/bin/bash
+source environment.sh
 
 # reference https://www.apt-browse.org/browse/ubuntu/trusty/main/i386/openvpn/2.3.2-7ubuntu3/file/usr/share/doc/openvpn/examples/sample-config-files/client.conf 
 
