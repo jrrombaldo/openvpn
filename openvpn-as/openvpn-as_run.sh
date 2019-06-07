@@ -7,8 +7,6 @@ export config_flag="$ovpn_vol/initialized"
 # if no external host is defined, use the internet facing IP
 if ["" == $EXTERNAL_HOST]; then export EXTERNAL_HOST=$(curl -s 'https://api.ipify.org?format=text'); fi
 
-# to see all queries
-$ovpn_vol/scripts/sacli ConfigQuery
 
 if [ ! -f "$config_flag" ]; then
 
@@ -50,7 +48,7 @@ if [ ! -f "$config_flag" ]; then
     # starting the server for to finsh configuration
     $ovpn_vol/scripts/openvpnas --umask=0077 
     $ovpn_vol/scripts/sacli --key "admin_ui.https.ip_address" --value "all" ConfigPut
-    $ovpn_vol/scripts/sacli --key "admin_ui.https.port" --value "8443" ConfigPut
+    $ovpn_vol/scripts/sacli --key "admin_ui.https.port" --value "9999" ConfigPut
 
     $ovpn_vol/scripts/sacli --key "cs.https.ip_address" --value "all" ConfigPut
     $ovpn_vol/scripts/sacli --key "cs.https.port" --value "8443" ConfigPut
@@ -59,8 +57,8 @@ if [ ! -f "$config_flag" ]; then
     $ovpn_vol/scripts/sacli --key "vpn.daemon.0.server.ip_address" --value "all" ConfigPut
     $ovpn_vol/scripts/sacli --key "vpn.daemon.0.listen.ip_address" --value "all" ConfigPut
 
-    $ovpn_vol/scripts/sacli --key "vpn.server.daemon.udp.port" --value "9443" ConfigPut
-    $ovpn_vol/scripts/sacli --key "vpn.server.daemon.tcp.port" --value "9443" ConfigPut
+    $ovpn_vol/scripts/sacli --key "vpn.server.daemon.udp.port" --value "8888" ConfigPut
+    $ovpn_vol/scripts/sacli --key "vpn.server.daemon.tcp.port" --value "8888" ConfigPut
 
 
     $ovpn_vol/scripts/sacli --key "vpn.server.max_clients" --value 20 ConfigPut

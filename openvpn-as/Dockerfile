@@ -37,7 +37,7 @@ RUN find /usr/local/openvpn_as/scripts -type f -print0 | \
 		xargs -0 sed -i 's#/usr/local/openvpn_as#/openvpnas_config#g' 
 
 
-EXPOSE 8443/tcp 9443/tcp 9443/udp
+EXPOSE 9999/tcp 8888/tcp 8888/udp
 ENTRYPOINT [ "/usr/local/bin/openvpn-as_run.sh" ]
 
 
