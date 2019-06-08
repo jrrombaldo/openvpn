@@ -16,7 +16,7 @@ jobs:
     - stage: build
       script:
         - cd openvpn-as
-        - docker build -t jrromb/openvpn
+        - docker build -t jrromb/openvpn .
     - stage: validate
       script: 
         - git clone https://github.com/lukebond/microscanner-wrapper.gitdocker
