@@ -10,7 +10,7 @@ docker ps -q --filter "name=$name" \
     | grep -q . && docker rm -f $name
 
 # running it
-docker run -it \
+docker run -itd \
     --name $name \
     --rm \
     --privileged \
