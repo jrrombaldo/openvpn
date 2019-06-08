@@ -3,16 +3,15 @@ FROM ubuntu:latest
 LABEL maintainer="Carlos Rombaldo <jr.rombaldo@gmail.com>"
 
 ARG PKG="https://openvpn.net/downloads/openvpn-as-latest-ubuntu18.amd_64.deb"
-ARG openvpn_pwd="changeme"
 
 ENV EXTERNAL_HOST ""
+ENV OVPN_PASS "changeme"
 
 RUN apt-get update && \
  	apt-get install -y iptables net-tools curl rsync
 
 RUN curl -o /tmp/openvpn.deb -s -L $PKG && \
-	 dpkg -i /tmp/openvpn.deb && \
-	 echo "openvpn:$openvpn_pwd" | chpasswd 
+	 dpkg -i /tmp/openvpn.deb  
 
 RUN apt-get clean && \
  rm -rf \
