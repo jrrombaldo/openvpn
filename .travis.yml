@@ -15,11 +15,12 @@ jobs:
   include:
     - stage: build
       script:
+        - cd openvpn-as
         - chmod +x ./build.sh
         - ./build.sh
-        - sleep 45 #making sure the conatainer is up
-        - docker ps -q --filter "name=openvpn-as" | grep -q . && exit 0
-        - exit -1
+        # - sleep 45 #making sure the conatainer is up
+        # - docker ps -q --filter "name=openvpn-as" | grep -q . && exit 0
+        # - exit -1
     # - stage: validate
     #   script: 
     #     - git clone https://github.com/lukebond/microscanner-wrapper.gitdocker

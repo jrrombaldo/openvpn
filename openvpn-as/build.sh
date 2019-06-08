@@ -10,7 +10,7 @@ docker ps -q --filter "name=$name" \
     | grep -q . && docker rm -f $name
 
 # running it
-docker run -itd \
+docker run -it \
     --name $name \
     --rm \
     --privileged \
@@ -18,8 +18,9 @@ docker run -itd \
     -p 9999:9999 \
     -p 8888:8888 \
     -p 8888:8888/udp \
-    -v /tmp:/openvpnas_config \
     $name:latest
+
+    # -v /tmp:/openvpnas_config \
 
 
 # https://openvpn.net/vpn-server-resources/advanced-option-settings-on-the-command-line/
