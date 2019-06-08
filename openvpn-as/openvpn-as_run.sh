@@ -38,8 +38,8 @@ if [ ! -f "$CONFIG_FLAGH" ]; then
     --force \
     --no_start \
     --no_private \
-    --local_auth 
-    # --host "localhost" 
+    --local_auth \
+    --host "$EXTERNAL_HOST" 
 
 
     # https://openvpn.net/vpn-server-resources/advanced-option-settings-on-the-command-line/
