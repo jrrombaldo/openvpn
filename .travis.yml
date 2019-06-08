@@ -16,16 +16,14 @@ jobs:
     - stage: build
       script:
         - cd openvpn-as
-        - docker build -t jrromb/openvpn .
-        
+        - docker build -t jrromb/openvpn .travis lint
     - stage: validate
-        script: 
-          - git clone https://github.com/lukebond/microscanner-wrapper.gitdocker
-
+      script: 
+        - git clone https://github.com/lukebond/microscanner-wrapper.gitdocker
     - stage: deploy
-        - script: 
-          - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
-          - docker push jrromb/openvpn:latest
-          - docker logout
-        - after_success:
-          - curl -d "" https://hooks.microbadger.com/images/jrromb/openvpn/$MICROBADGER
+      script: 
+        - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+        - docker push jrromb/openvpn:latest
+        - docker logout
+      after_success:
+      - curl -d "" https://hooks.microbadger.com/images/jrromb/openvpn/$MICROBADGER
