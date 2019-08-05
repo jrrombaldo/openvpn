@@ -50,17 +50,17 @@ if [ ! -f "$CONFIG_FLAGH" ]; then
     # starting the server for to finsh configuration
     $OVPN_VOL/scripts/openvpnas --umask=0077 
     $OVPN_VOL/scripts/sacli --key "admin_ui.https.ip_address" --value "all" ConfigPut
-    $OVPN_VOL/scripts/sacli --key "admin_ui.https.port" --value "9999" ConfigPut
+    $OVPN_VOL/scripts/sacli --key "admin_ui.https.port" --value "$ADMIN_PORT" ConfigPut
 
     $OVPN_VOL/scripts/sacli --key "cs.https.ip_address" --value "all" ConfigPut
-    $OVPN_VOL/scripts/sacli --key "cs.https.port" --value "9999" ConfigPut
+    $OVPN_VOL/scripts/sacli --key "cs.https.port" --value "$CLIENT_PORT" ConfigPut
     # $OVPN_VOL/scripts/sacli --key "vpn.server.port_share.enable" --value "true" ConfigPut
     # $OVPN_VOL/scripts/sacli --key "vpn.server.port_share.service" --value "admin+client" ConfigPut
     $OVPN_VOL/scripts/sacli --key "vpn.daemon.0.server.ip_address" --value "all" ConfigPut
     $OVPN_VOL/scripts/sacli --key "vpn.daemon.0.listen.ip_address" --value "all" ConfigPut
 
-    $OVPN_VOL/scripts/sacli --key "vpn.server.daemon.udp.port" --value "8888" ConfigPut
-    $OVPN_VOL/scripts/sacli --key "vpn.server.daemon.tcp.port" --value "8888" ConfigPut
+    $OVPN_VOL/scripts/sacli --key "vpn.server.daemon.udp.port" --value "$VPN_TCP_PORT" ConfigPut
+    $OVPN_VOL/scripts/sacli --key "vpn.server.daemon.tcp.port" --value "$VPN_UDP_PORT" ConfigPut
 
 
     $OVPN_VOL/scripts/sacli --key "vpn.server.max_clients" --value 20 ConfigPut

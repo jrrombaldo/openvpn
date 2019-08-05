@@ -6,10 +6,12 @@ ARG PKG="https://openvpn.net/downloads/openvpn-as-latest-ubuntu18.amd_64.deb"
 
 ENV EXTERNAL_HOST ""
 ENV OVPN_PASS "changeme"
-ENV VPN_TCP_PORT="8888"
-ENV VPN_UDP_PORT="8888"
+ENV VPN_TCP_PORT="8443"
+ENV VPN_UDP_PORT="8443"
 ENV ADMIN_PORT="9999"
 ENV CLIENT_PORT="9999"
+
+EXPOSE 8443/tcp 8443/tcp 9999/udp
 
 COPY openvpn-as_run.sh /usr/local/bin/openvpn-as_run.sh
 
@@ -35,7 +37,6 @@ RUN apt-get update && \
 
 VOLUME /openvpnas_config
 
-EXPOSE 9999/tcp 8888/tcp 8888/udp
 
 ENTRYPOINT [ "/usr/local/bin/openvpn-as_run.sh" ]
 
