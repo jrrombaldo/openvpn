@@ -5,7 +5,7 @@ export CONFIG_FLAGH="$OVPN_VOL/initialized"
 
 
 # if no external host is defined, use the internet facing IP
-if ["" == $EXTERNAL_HOST]; then export EXTERNAL_HOST=$(curl -s 'https://api.ipify.org?format=text'); fi
+if [ -z "$EXTERNAL_HOST" ]; then export EXTERNAL_HOST=$(curl -s 'https://api.ipify.org?format=text'); fi
 
 
 if [ ! -f "$CONFIG_FLAGH" ]; then
